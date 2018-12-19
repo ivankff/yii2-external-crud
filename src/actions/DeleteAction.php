@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\actions;
+namespace ivankff\yii2ExternalCrud\actions;
 
 use Assert\Assertion;
 use ivankff\yii2ExternalCrud\events\ActionDeleteEvent;
