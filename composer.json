@@ -1,0 +1,29 @@
+{
+    "name": "ivankff/yii2-external-crud",
+    "description": "yii2 Create, Update, Delete, View external actions for backend",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "yii 2", "behaviors", "crud"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "ivankff",
+            "email": "ivankff@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/ivankff/yii2-external-crud/issues?state=open",
+        "source": "https://github.com/ivankff/yii2-external-crud"
+    },
+    "require": {
+        "yiisoft/yii2": "~2.0",
+        "beberlei/assert": "^2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ivankff\\yii2ExternalCrud\\": "src/"
+        }
+    }
+}
