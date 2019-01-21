@@ -72,7 +72,7 @@ abstract class WriteAction extends Action
         Assertion::isInstanceOf($model, ModelSaveInterface::class);
 
         $success = false;
-        $isNewRecord = $model->isNewRecord();
+        $isNewRecord = $model->getIsNewRecord();
 
         $eventLoad = new ActionWriteLoadEvent(['model' => $model, 'post' => $request->post()]);
         $this->trigger(self::EVENT_BEFORE_LOAD, $eventLoad);

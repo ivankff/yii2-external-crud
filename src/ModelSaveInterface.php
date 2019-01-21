@@ -12,7 +12,7 @@ interface ModelSaveInterface
     /**
      * @return bool Является ли модель моделью для добавления
      */
-    public function isNewRecord();
+    public function getIsNewRecord();
     /**
      * @param bool $runValidation
      * @return bool

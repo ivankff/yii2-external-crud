@@ -5,9 +5,9 @@ Controller
 ```php
 public function actions()
 {
-	return [
-		...
-		'create' => [
+    return [
+        ...
+        'create' => [
             'class' => 'ivankff\yii2ExternalCrud\actions\CreateAction',
             'view' => 'update',
             'additionalQueryParams' => ['F.categoryId'],
@@ -29,7 +29,7 @@ public function actions()
                 /** @var ActionWriteViewEvent $event */
                 $event->viewParams['categories'] = $this->getCategories();
             }
-		],
+        ],
         'update' => [
             'class' => 'ivankff\yii2ExternalCrud\actions\UpdateAction',
             'view' => 'update',
@@ -53,8 +53,8 @@ public function actions()
                 return $this->findModel($id);
             },
         ],
-		...
-	];
+        ...
+    ];
 }
 ```
 
