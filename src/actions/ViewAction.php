@@ -58,7 +58,7 @@ class ViewAction extends Action
                 'model' => $model,
             ],
             'modalContent' => new ModalContentObject([
-                'title' => $model->modalTitle(),
+                'title' => 'Быстрый просмотр',
                 'footer' => Html::button('Закрыть', ['class' => 'btn btn-default mr-auto', 'data-dismiss' => "modal"]),
             ]),
         ]);
