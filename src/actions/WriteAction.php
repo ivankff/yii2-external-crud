@@ -103,7 +103,7 @@ abstract class WriteAction extends Action
             $route = ArrayHelper::merge(['index'], $additionalQueryParams);
         } else {
             if (Yii::$app->request->post('exit') === null)
-                $route = ArrayHelper::merge(['update', 'id' => $id], $additionalQueryParams);
+                $route = Yii::$app->getRequest()->getUrl();
             else
                 $route = ArrayHelper::merge(['index'], $additionalQueryParams);
         }
