@@ -46,11 +46,11 @@ class ViewAction extends Action
     /**
      * {@inheritdoc}
      */
-    public function run($id)
+    public function run()
     {
-        $request = Yii::$app->request;
+        $model = call_user_func($this->model, $this);
 
-        $model = call_user_func($this->model, $id, $this);
+        $request = Yii::$app->request;
 
         $eventView = new ActionViewViewEvent([
             'model' => $model,

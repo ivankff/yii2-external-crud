@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Response;
 
-abstract class WriteAction extends Action
+class WriteAction extends Action
 {
 
     const EVENT_INIT = 'init';
@@ -38,7 +38,7 @@ abstract class WriteAction extends Action
     /**
      * @var string
      */
-    public $view;
+    public $view = 'update';
     /**
      * @var string|null
      * `string` - ключ для Флеш-сообщения
@@ -59,17 +59,16 @@ abstract class WriteAction extends Action
     }
 
     /**
-     * @param Model|ModelSaveInterface $model
-     * @param null|int $id ид ActiveRecord при update
-     * @return mixed
-     * @throws
+     * {@inheritdoc}
      */
-    protected function _run($model, $id = null)
+    public function run()
     {
-        $request = Yii::$app->request;
-
+        /** @var Model|ModelSaveInterface $model $model */
+        $model = call_user_func($this->model, $this);
         Assertion::isInstanceOf($model, Model::class);
         Assertion::isInstanceOf($model, ModelSaveInterface::class);
+
+        $request = Yii::$app->request;
 
         $success = false;
         $isNewRecord = $model->getIsNewRecord();
@@ -88,10 +87,10 @@ abstract class WriteAction extends Action
                     $success = $eventSave->success = true;
 
                     if ($this->flash)
-                        Yii::$app->session->addFlash("{$this->flash}{$id}.success", "Изменения сохранены " . Yii::$app->formatter->asDatetime(new \DateTime()) . ".");
+                        Yii::$app->session->addFlash("{$this->flash}.success", "Изменения сохранены " . Yii::$app->formatter->asDatetime(new \DateTime()) . ".");
                 } else {
                     if ($this->flash)
-                        Yii::$app->session->addFlash("{$this->flash}{$id}.error", "Не удалось сохранить изменения. Обратитесь к администратору.");
+                        Yii::$app->session->addFlash("{$this->flash}.error", "Не удалось сохранить изменения. Обратитесь к администратору.");
                 }
             }
 

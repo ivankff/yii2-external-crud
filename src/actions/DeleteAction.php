@@ -33,10 +33,10 @@ class DeleteAction extends Action
     /**
      * {@inheritdoc}
      */
-    public function run($id)
+    public function run()
     {
         /** @var ActiveRecordInterface $model */
-        $model = call_user_func($this->model, $id, $this);
+        $model = call_user_func($this->model, $this);
         Assertion::isInstanceOf($model, ActiveRecordInterface::class);
 
         $eventView = new ActionDeleteEvent([
