@@ -5,7 +5,6 @@ namespace ivankff\yii2ExternalCrud\actions;
 use Assert\Assertion;
 use ivankff\yii2ExternalCrud\events\ActionDeleteEvent;
 use yii\base\Action;
-use yii\db\ActiveRecordInterface;
 
 class DeleteAction extends Action
 {
@@ -35,9 +34,8 @@ class DeleteAction extends Action
      */
     public function run()
     {
-        /** @var ActiveRecordInterface $model */
         $model = call_user_func($this->model, $this);
-        Assertion::isInstanceOf($model, ActiveRecordInterface::class);
+        Assertion::methodExists('delete', $model);
 
         $eventView = new ActionDeleteEvent([
             'model' => $model,
