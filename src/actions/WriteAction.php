@@ -12,6 +12,7 @@ use ivankff\yii2ExternalCrud\ModelSaveInterface;
 use yii\base\Action;
 use Yii;
 use yii\base\Model;
+use yii\base\ModelEvent;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Response;
@@ -20,6 +21,8 @@ class WriteAction extends Action
 {
 
     const EVENT_INIT = 'init';
+    const EVENT_BEFORE_RUN = 'beforeRun';
+    const EVENT_AFTER_RUN = 'afterRun';
     const EVENT_BEFORE_LOAD = 'beforeLoad';
     const EVENT_AFTER_LOAD = 'afterLoad';
     const EVENT_BEFORE_SAVE = 'beforeSave';
@@ -145,6 +148,25 @@ class WriteAction extends Action
         return null === $eventView->modalContent->content
             ? call_user_func([$this->controller, 'render'], $this->view, $eventView->viewParams)
             : $eventView->modalContent->content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeRun()
+    {
+        $event = new ModelEvent();
+        $this->trigger(self::EVENT_BEFORE_RUN, $event);
+
+        return $event->isValid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterRun()
+    {
+        $this->trigger(self::EVENT_AFTER_RUN);
     }
 
 }

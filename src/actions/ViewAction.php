@@ -7,6 +7,7 @@ use ivankff\yii2ExternalCrud\events\ActionViewViewEvent;
 use ivankff\yii2ExternalCrud\ModalContentObject;
 use yii\base\Action;
 use Yii;
+use yii\base\ModelEvent;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Response;
@@ -15,6 +16,8 @@ class ViewAction extends Action
 {
 
     const EVENT_INIT = 'init';
+    const EVENT_BEFORE_RUN = 'beforeRun';
+    const EVENT_AFTER_RUN = 'afterRun';
     const EVENT_BEFORE_VIEW = 'beforeView';
 
     /**
@@ -79,6 +82,25 @@ class ViewAction extends Action
         return null === $eventView->modalContent->content
             ? call_user_func([$this->controller, 'render'], $this->view, $eventView->viewParams)
             : $eventView->modalContent->content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeRun()
+    {
+        $event = new ModelEvent();
+        $this->trigger(self::EVENT_BEFORE_RUN, $event);
+
+        return $event->isValid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterRun()
+    {
+        $this->trigger(self::EVENT_AFTER_RUN);
     }
 
 }
