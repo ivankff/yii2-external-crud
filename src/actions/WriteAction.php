@@ -48,6 +48,14 @@ class WriteAction extends Action
      * `null` - не использовать флеш
      */
     public $flash;
+    /**
+     * @var string grid-id для перезагрузки после закрытия модального окна
+     */
+    public $forceReload = '#grid-pjax';
+    /**
+     * @var bool закрывать или нет окно после нажатия кнопки Сохранить
+     */
+    public $forceClose = true;
 
     /**
      * {@inheritdoc}
@@ -118,7 +126,7 @@ class WriteAction extends Action
                 'model' => $model,
                 'additionalQueryParams' => $additionalQueryParams,
             ],
-            'modalSuccess' => new ModalSuccessObject(),
+            'modalSuccess' => new ModalSuccessObject(['forceReload' => $this->forceReload, 'forceClose' => $this->forceClose]),
             'modalContent' => new ModalContentObject([
                 'title' => $model->modalTitle(),
                 'footer' => Html::button('Закрыть', ['class' => 'btn btn-default mr-auto', 'data-dismiss' => "modal"]) .

@@ -7,7 +7,7 @@ use yii\base\BaseObject;
 class ModalSuccessObject extends BaseObject
 {
 
-    public $forceReload = '#grid-pjax';
-    public $forceClose = true;
+    public $forceReload;
+    public $forceClose;
 
 }
