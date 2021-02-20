@@ -80,22 +80,22 @@ class WriteAction extends Action
         Assertion::isInstanceOf($model, ModelSaveInterface::class);
 
         $request = Yii::$app->request;
-
-        $success = false;
         $isNewRecord = $model->getIsNewRecord();
 
         $eventLoad = new ActionWriteLoadEvent(['model' => $model, 'post' => $request->post()]);
         $this->trigger(self::EVENT_BEFORE_LOAD, $eventLoad);
+        $eventLoad->isLoaded = $model->load($eventLoad->post);
+        $this->trigger(self::EVENT_AFTER_LOAD, $eventLoad);
 
-        if ($model->load($eventLoad->post)) {
-            $this->trigger(self::EVENT_AFTER_LOAD, $eventLoad);
+        $success = false;
 
+        if ($eventLoad->isLoaded) {
             $eventSave = new ActionWriteSaveEvent(['model' => $model]);
             $this->trigger(self::EVENT_BEFORE_SAVE, $eventSave);
 
             if ($eventSave->isValid && (! $eventSave->runValidation || $model->validate())) {
                 if ($model->save($eventSave->runValidation)) {
-                    $success = $eventSave->success = true;
+                    $eventSave->success = true;
 
                     if ($this->flash)
                         Yii::$app->session->addFlash("{$this->flash}.success", "Изменения сохранены " . Yii::$app->formatter->asDatetime(new \DateTime()) . ".");
@@ -106,6 +106,7 @@ class WriteAction extends Action
             }
 
             $this->trigger(self::EVENT_AFTER_SAVE, $eventSave);
+            $success = $eventSave->success;
         }
 
         $additionalQueryParams = ArrayHelper::filter($request->get(), $this->additionalQueryParams);

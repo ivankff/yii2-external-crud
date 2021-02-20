@@ -6,6 +6,8 @@ use yii\base\Action;
 use yii\base\Event;
 use yii\base\Model;
 
+/**
+ */
 class ActionWriteLoadEvent extends Event
 {
 
@@ -21,5 +23,10 @@ class ActionWriteLoadEvent extends Event
      * @var array POST data
      */
     public $post;
+    /**
+     * @var null|bool
+     * @see Model::load()
+     */
+    public $isLoaded;
 
 }
